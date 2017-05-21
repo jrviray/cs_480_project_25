@@ -17,10 +17,24 @@ import com.github.angads25.filepicker.view.FilePickerDialog;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> contents = new ArrayList<>();
+
+    public ArrayList getContents(String path){
+        File parentDir = new File(path);
+        ArrayList contents = new ArrayList<>();
+        // accept only jpg files
+        contents.addAll(Arrays.asList(parentDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith(".jpg");
+            }
+        })));
+        return contents;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,34 +48,48 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize file chooser
         DialogProperties properties = new DialogProperties();
-
+        // Config for multiple file selection
         properties.selection_mode = DialogConfigs.MULTI_MODE;
         properties.selection_type = DialogConfigs.DIR_SELECT;
         properties.root = new File(DialogConfigs.DEFAULT_DIR);
         properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
         properties.offset = new File(DialogConfigs.DEFAULT_DIR);
         properties.extensions = null;
-
-        /**
-         * Modifiable Fields for dialog
-         * title
-         * positive button
-         * negative button
-         */
+        // set the dialog box
         final FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
+        dialog.setTitle("Select a File");
+
+        // //initialize file chooser
+        DialogProperties dirSelectProp = new DialogProperties();
+        // Config for single directory selection
+        // use getContents to get all file within directory
+        dirSelectProp.selection_mode = DialogConfigs.DIR_SELECT;
+        dirSelectProp.selection_type = DialogConfigs.DIR_SELECT;
+        dirSelectProp.root = new File(DialogConfigs.DEFAULT_DIR);
+        dirSelectProp.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+        dirSelectProp.offset = new File(DialogConfigs.DEFAULT_DIR);
+        dirSelectProp.extensions = null;
+        // set the dialog box
+        final FilePickerDialog dirSelect = new FilePickerDialog(MainActivity.this, dirSelectProp);
         dialog.setTitle("Select a File");
 
 
         getDirectory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dialog.show();
+                //dialog.show();
+                dirSelect.show();
 
-                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+//                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+//                    @Override
+//                    public void onSelectedFilePaths(String[] files) {
+//                        contents = new ArrayList(Arrays.asList(files));
+//                    }
+//                });
+
+                dirSelect.setDialogSelectionListener(new DialogSelectionListener() {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
-                        contents = new ArrayList(Arrays.asList(files));
-//                        files = files[0].split(", ");
-//                        Log.d("Contents Array",contents.toString());
+                        contents = getContents(files[0].toString());
                     }
                 });
 
