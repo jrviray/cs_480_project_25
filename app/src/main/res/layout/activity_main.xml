@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <Button
+            android:id="@+id/b_get_directory"
+            android:text="Get Directory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_directory_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This will show the path directory"
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+
+        <ListView
+            android:id="@+id/lv_file_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+      <Button
+          android:id="@+id/b_view_gallery"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="View Gallery"
+          android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
