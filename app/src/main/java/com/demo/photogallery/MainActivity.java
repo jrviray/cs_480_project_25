@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SlideshowDialogFragment.SlideshowDialogListener{
 
     ArrayList<String> contents = new ArrayList<>();
 
@@ -107,11 +107,23 @@ public class MainActivity extends AppCompatActivity {
 
         makeSlideshow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent openSlideshowDialog = new Intent(MainActivity.this, SlideshowDialogFragment.class);
-                startActivity(openSlideshowDialog);
-                //dialogHelper.showSlideshowDialog();
+//                Intent openSlideshowDialog = new Intent(MainActivity.this, SlideshowDialogFragment.class);
+//                startActivity(openSlideshowDialog);
+//                dialogHelper.showSlideshowDialog();
+                dialogHelper.showSlideshowDialog();
+
             }
         });
+
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
 
     }
 
@@ -120,17 +132,14 @@ public class MainActivity extends AppCompatActivity {
         public void showSlideshowDialog() {
             // Create an instance of the dialog fragment and show it
             DialogFragment dialog = new SlideshowDialogFragment();
-            dialog.show(this.getFragmentManager(), "SlideshowFragmentDialog");
+            dialog.show(MainActivity.this.getFragmentManager(), "SlideshowFragmentDialog");
         }
 
         @Override
         public void onDialogPositiveClick(DialogFragment dialog) {
-
         }
-
         @Override
         public void onDialogNegativeClick(DialogFragment dialog) {
-
         }
 
     }
