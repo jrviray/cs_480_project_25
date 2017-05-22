@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/b_slideshow_file_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Files/Directory"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_transitions_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/slideshow_transitions_list"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/spinner_timer_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/slideshow_time_duration"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+    </Spinner>
+
+    <Button
+        android:id="@+id/b_display_slideshow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Slideshow"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
+</LinearLayout>

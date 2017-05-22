@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Photo Gallery</string>
+
+    <string-array name="slideshow_time_duration">
+        <item>500 ms</item>
+        <item>750 ms</item>
+        <item>1 sec</item>
+        <item>5 sec</item>
+        <item>10 sec</item>
+    </string-array>
+
+    <string-array name="slideshow_transitions_list">
+        <item>Fade left</item>
+        <item>Fade right</item>
+    </string-array>
 </resources>

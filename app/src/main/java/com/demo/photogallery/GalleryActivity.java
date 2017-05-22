@@ -30,8 +30,6 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_space_gallery);
 
-        //contents = getIntent().getStringArrayListExtra("Contents");
-
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_images);
         recyclerView.setHasFixedSize(true);

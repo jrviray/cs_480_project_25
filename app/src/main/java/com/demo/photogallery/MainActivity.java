@@ -1,6 +1,8 @@
 package com.demo.photogallery;
 
+import android.app.DialogFragment;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * List the contents within a file
+     *
      * @param path
      * @return
      */
-    public ArrayList getContents(String path){
+    public ArrayList getContents(String path) {
         File parentDir = new File(path);
         ArrayList contents = new ArrayList<>();
         // accept only jpg files
@@ -48,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /**
-         * Buttions and fields that the user interacts with
+         * Buttons and fields that the user interacts with
          */
-        final Button getDirectory = (Button) findViewById(R.id.b_get_directory);
-        final TextView filePath = (TextView) findViewById(R.id.tv_directory_path);
-        final Button showGallery = (Button) findViewById(R.id.b_view_gallery);
-        final ListView itemContents = (ListView) findViewById(R.id.lv_file_contents);
+        final Button displayGallery = (Button) findViewById(R.id.b_view_a_gallery);
+        final Button makeSlideshow = (Button) findViewById(R.id.b_make_a_slideshow);
+        final DialogHelper dialogHelper = new DialogHelper();
 
         //initialize file chooser
         DialogProperties properties = new DialogProperties();
@@ -84,45 +86,54 @@ public class MainActivity extends AppCompatActivity {
 
 
         /**
-         * Button listener. Executes an action upon button press.
+         * Button listeners. Executes an action upon button press.
          */
-        getDirectory.setOnClickListener(new View.OnClickListener() {
+
+        displayGallery.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //dialog.show();
                 dirSelect.show();
-
-//                dialog.setDialogSelectionListener(new DialogSelectionListener() {
-//                    @Override
-//                    public void onSelectedFilePaths(String[] files) {
-//                        contents = new ArrayList(Arrays.asList(files));
-//                    }
-//                });
-
                 dirSelect.setDialogSelectionListener(new DialogSelectionListener() {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
                         contents = getContents(files[0].toString());
+                        Intent galleryIntent = new Intent(MainActivity.this, GalleryActivity.class);
+                        galleryIntent.putStringArrayListExtra("contents", contents);
+                        startActivity(galleryIntent);
                     }
                 });
 
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, contents);
-                itemContents.setAdapter(arrayAdapter);
             }
         });
 
-        /**
-         * Button listener. Executes an action upon button press.
-         */
-        showGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent(MainActivity.this, GalleryActivity.class);
-                galleryIntent.putStringArrayListExtra("contents", contents);
-                startActivity(galleryIntent);
+        makeSlideshow.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent openSlideshowDialog = new Intent(MainActivity.this, SlideshowDialogFragment.class);
+                startActivity(openSlideshowDialog);
+                //dialogHelper.showSlideshowDialog();
             }
         });
+
     }
 
+    private class DialogHelper extends FragmentActivity implements SlideshowDialogFragment.SlideshowDialogListener {
+
+        public void showSlideshowDialog() {
+            // Create an instance of the dialog fragment and show it
+            DialogFragment dialog = new SlideshowDialogFragment();
+            dialog.show(this.getFragmentManager(), "SlideshowFragmentDialog");
+        }
+
+        @Override
+        public void onDialogPositiveClick(DialogFragment dialog) {
+
+        }
+
+        @Override
+        public void onDialogNegativeClick(DialogFragment dialog) {
+
+        }
+
+    }
 
 
 }

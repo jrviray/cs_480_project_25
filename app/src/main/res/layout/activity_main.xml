@@ -13,32 +13,22 @@
         tools:layout_editor_absoluteX="8dp">
 
         <Button
-            android:id="@+id/b_get_directory"
-            android:text="Get Directory"
+            android:id="@+id/b_view_a_gallery"
+            android:text="View A Gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:id="@+id/tv_directory_path"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This will show the path directory"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            android:layout_gravity="center"/>
-
-        <ListView
-            android:id="@+id/lv_file_contents"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="25dp"
+            />
 
       <Button
-          android:id="@+id/b_view_gallery"
+          android:id="@+id/b_make_a_slideshow"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="View Gallery"
-          android:layout_gravity="center"/>
+          android:text="Make A Slideshow"
+          android:layout_gravity="center"
+          android:layout_marginTop="25dp"/>
 
     </LinearLayout>
 
