@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> contents = new ArrayList<>();
 
+    /**
+     * List the contents within a file
+     * @param path
+     * @return
+     */
     public ArrayList getContents(String path){
         File parentDir = new File(path);
         ArrayList contents = new ArrayList<>();
@@ -36,11 +41,15 @@ public class MainActivity extends AppCompatActivity {
         return contents;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * Buttions and fields that the user interacts with
+         */
         final Button getDirectory = (Button) findViewById(R.id.b_get_directory);
         final TextView filePath = (TextView) findViewById(R.id.tv_directory_path);
         final Button showGallery = (Button) findViewById(R.id.b_view_gallery);
@@ -74,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("Select a File");
 
 
+        /**
+         * Button listener. Executes an action upon button press.
+         */
         getDirectory.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //dialog.show();
@@ -98,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Button listener. Executes an action upon button press.
+         */
         showGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
