@@ -11,6 +11,7 @@ import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 
@@ -65,7 +66,7 @@ public class SlideshowDialogFragment extends DialogFragment {
                 DialogProperties properties = new DialogProperties();
                 // Config for multiple file selection
                 properties.selection_mode = DialogConfigs.MULTI_MODE;
-                properties.selection_type = DialogConfigs.DIR_SELECT;
+                properties.selection_type = DialogConfigs.FILE_AND_DIR_SELECT;
                 properties.root = new File(DialogConfigs.DEFAULT_DIR);
                 properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
                 properties.offset = new File(DialogConfigs.DEFAULT_DIR);
@@ -85,9 +86,40 @@ public class SlideshowDialogFragment extends DialogFragment {
             }
         });
 
-        // Spinner listener
+        // spinner listener
+        Spinner transitionSelect = (Spinner) view.findViewById(R.id.spinner_transitions_list);
+        transitionSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                transition = parent.getSelectedItemPosition();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // spinner listener
+        Spinner durationSelect = (Spinner) view.findViewById(R.id.spinner_timer_list);
+        durationSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                duration = parent.getSelectedItemPosition();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Button confirm = (Button) view.findViewById(R.id.b_view_slideshow);
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // pass in the transition and duration selected as extras to the intent
+                // start and launch the intent
+            }
+        });
 
         // cancel button
         Button cancel = (Button) view.findViewById(R.id.b_cancel);
