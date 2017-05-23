@@ -7,7 +7,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.transition.Slide;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import com.github.angads25.filepicker.controller.DialogSelectionListener;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+
+import java.io.File;
 
 /**
  * Created by king on 5/22/17.
@@ -15,50 +27,79 @@ import android.view.LayoutInflater;
 
 public class SlideshowDialogFragment extends DialogFragment {
 
+
+    private Button selectFile;
+    private Spinner transitionsList;
+    private Spinner durationList;
+
+    private int transition;
+    private int duration;
+    private String[] path;
+
+    SlideshowDialogFragment getData;
+
+    public SlideshowDialogFragment() {
+
+    }
+
+    public static SlideshowDialogFragment newInstance(String title) {
+        SlideshowDialogFragment fragment = new SlideshowDialogFragment();
+        return fragment;
+    }
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.slideshow_dialog, null))
-                .setPositiveButton("Okay", new DialogInterface.OnClickListener(){
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.slideshow_dialog, container, false);
+
+        Button selectFile = (Button) view.findViewById(R.id.b_slideshow_file_select);
+        selectFile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //initialize file chooser
+                DialogProperties properties = new DialogProperties();
+                // Config for multiple file selection
+                properties.selection_mode = DialogConfigs.MULTI_MODE;
+                properties.selection_type = DialogConfigs.DIR_SELECT;
+                properties.root = new File(DialogConfigs.DEFAULT_DIR);
+                properties.error_dir = new File(DialogConfigs.DEFAULT_DIR);
+                properties.offset = new File(DialogConfigs.DEFAULT_DIR);
+                properties.extensions = null;
+                // set the dialog box
+                final FilePickerDialog dialog = new FilePickerDialog(SlideshowDialogFragment.this.getActivity(), properties);
+                dialog.setTitle("Select a File");
+
+                dialog.show();
+
+                dialog.setDialogSelectionListener(new DialogSelectionListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        //pass back the info to the slide show activity
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //reset the layout
-                        SlideshowDialogFragment.this.getDialog().cancel();
+                    public void onSelectedFilePaths(String[] files) {
+                        path = files;
                     }
                 });
+            }
+        });
 
-        return builder.create();
+        // Spinner listener
+
+        // spinner listener
+
+        // cancel button
+        Button cancel = (Button) view.findViewById(R.id.b_cancel);
+        cancel.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SlideshowDialogFragment.this.dismiss();
+            }
+        });
+
+        return view;
     }
-
-    public interface SlideshowDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-    }
-
-    SlideshowDialogListener mListener;
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        // Verify that the host activity implements the callback interface
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (SlideshowDialogListener) context;
-        } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(context.toString()
-                    + " must implement NoticeDialogListener");
-        }
-    }
-
 
 
 }

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SlideshowDialogFragment.SlideshowDialogListener{
+public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> contents = new ArrayList<>();
 
@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements SlideshowDialogFr
          */
         final Button displayGallery = (Button) findViewById(R.id.b_view_a_gallery);
         final Button makeSlideshow = (Button) findViewById(R.id.b_make_a_slideshow);
-        final DialogHelper dialogHelper = new DialogHelper();
 
         //initialize file chooser
         DialogProperties properties = new DialogProperties();
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SlideshowDialogFr
         final FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
         dialog.setTitle("Select a File");
 
-        // //initialize file chooser
+        //initialize file chooser
         DialogProperties dirSelectProp = new DialogProperties();
         // Config for single directory selection
         // use getContents to get all file within directory
@@ -107,40 +106,10 @@ public class MainActivity extends AppCompatActivity implements SlideshowDialogFr
 
         makeSlideshow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                Intent openSlideshowDialog = new Intent(MainActivity.this, SlideshowDialogFragment.class);
-//                startActivity(openSlideshowDialog);
-//                dialogHelper.showSlideshowDialog();
-                dialogHelper.showSlideshowDialog();
-
+                DialogFragment dialog = new SlideshowDialogFragment();
+                dialog.show(MainActivity.this.getFragmentManager(), "SlideshowFragmentDialog");
             }
         });
-
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-    }
-
-    private class DialogHelper extends FragmentActivity implements SlideshowDialogFragment.SlideshowDialogListener {
-
-        public void showSlideshowDialog() {
-            // Create an instance of the dialog fragment and show it
-            DialogFragment dialog = new SlideshowDialogFragment();
-            dialog.show(MainActivity.this.getFragmentManager(), "SlideshowFragmentDialog");
-        }
-
-        @Override
-        public void onDialogPositiveClick(DialogFragment dialog) {
-        }
-        @Override
-        public void onDialogNegativeClick(DialogFragment dialog) {
-        }
 
     }
 
