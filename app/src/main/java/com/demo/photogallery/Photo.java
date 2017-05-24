@@ -48,6 +48,10 @@ public class Photo implements Parcelable {
         return photos;
     }
 
+    public static Photo getPhoto(Photo[] photos, int pos){
+        return photos[pos];
+    }
+
     @Override
     public int describeContents() {
         return 0;

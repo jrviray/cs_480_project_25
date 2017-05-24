@@ -42,6 +42,14 @@ public class GalleryActivity extends AppCompatActivity {
 
     private class ImageGalleryAdapter extends RecyclerView.Adapter<ImageGalleryAdapter.MyViewHolder>  {
 
+        private Photo[] mPhotos;
+        private Context mContext;
+
+        public ImageGalleryAdapter(Context context, Photo[] photos) {
+            mContext = context;
+            mPhotos = photos;
+        }
+
         @Override
         public ImageGalleryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -97,12 +105,5 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }
 
-        private Photo[] mPhotos;
-        private Context mContext;
-
-        public ImageGalleryAdapter(Context context, Photo[] photos) {
-            mContext = context;
-            mPhotos = photos;
-        }
     }
 }
