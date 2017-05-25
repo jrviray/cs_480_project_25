@@ -10,7 +10,20 @@
     </string-array>
 
     <string-array name="slideshow_transitions_list">
-        <item>Fade left</item>
-        <item>Fade right</item>
+        <item>fade in</item>
+        <item>fade out</item>
+        <item>rotate</item>
+        <item>sequential</item>
+        <item>slide bottom left</item>
+        <item>slide bottom right</item>
+        <item>slide top left</item>
+        <item>slide top right</item>
+        <item>slide left</item>
+        <item>slide right</item>
+        <item>slide down</item>
+        <item>slide up</item>
+        <item>zoom out</item>
+        <item>zoom in</item>
+
     </string-array>
 </resources>
