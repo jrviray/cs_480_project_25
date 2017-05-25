@@ -65,6 +65,8 @@ public class SlideshowActivity extends AppCompatActivity {
         ArrayList<File> files = getContents(getIntent().getStringExtra("path"));
         imageUri = Uri.fromFile(files.get(2));
 
+
+
         sw.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -89,6 +91,8 @@ public class SlideshowActivity extends AppCompatActivity {
                 sw.setImageURI(imageUri);
             }
         });
+
+        sw.setImageURI(imageUri);
 //        Glide.with(this)
 //                .load(imageUri)
 //                .crossFade(1000)
