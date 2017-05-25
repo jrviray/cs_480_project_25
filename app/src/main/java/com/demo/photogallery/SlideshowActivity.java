@@ -3,16 +3,22 @@ package com.demo.photogallery;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Glide.*;
@@ -20,6 +26,9 @@ import com.bumptech.glide.Glide.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by king on 5/23/17.
@@ -30,12 +39,14 @@ public class SlideshowActivity extends AppCompatActivity {
     ArrayList<String> contents = new ArrayList<>();
     int transition;
     int duration;
+    Uri imageUri;
 
-    public ArrayList getContents(String path){
+    public ArrayList getContents(String path) {
         File f = new File(path);
         ArrayList<File> files = new ArrayList<File>(Arrays.asList(f.listFiles()));
         return files;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,31 +55,48 @@ public class SlideshowActivity extends AppCompatActivity {
         Log.d("slideshow", "were in the rigth activity");
         final ImageButton nextImage = (ImageButton) findViewById(R.id.b_right_arrow);
         final ImageButton prevImage = (ImageButton) findViewById(R.id.b_left_arrow);
-        final ImageView imageView = (ImageView) findViewById(R.id.iv_slideshow_photo);
+        final ImageSwitcher sw = (ImageSwitcher) findViewById(R.id.iv_slideshow_photo);
         final TextView imageName = (TextView) findViewById(R.id.tv_photo_name);
 
-        //Bundle bundle = getIntent().getExtras();
         transition = getIntent().getIntExtra("transition", 0);
         duration = getIntent().getIntExtra("duration", 0);
         contents = getIntent().getStringArrayListExtra("contents");
 
-        // Photo[] mPhotos = Photo.getSpacePhotos(contents);
-        // crashes at this line
-        // Photo photo = Photo.getPhoto(mPhotos,2);
-
         ArrayList<File> files = getContents(getIntent().getStringExtra("path"));
-        Uri imageUri = Uri.fromFile(files.get(2));
-        Glide.with(this)
-                //.load(contents.get(2).toString())
-                .load(imageUri)
-                //.placeholder(R.drawable.ic_error)
-                .crossFade(1000)
-                .into(imageView);
-        Log.d("glide","past glide");
+        imageUri = Uri.fromFile(files.get(2));
 
-//        SlideshowAdapter slideshowAdapter = new SlideshowAdapter(this, Photo.getSpacePhotos(contents));
-//        slideshowAdapter.loadPhoto(imageView, 2);
+        sw.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(getApplicationContext());
+                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                myView.setLayoutParams(new
+                        ImageSwitcher.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                        ActionBar.LayoutParams.WRAP_CONTENT));
+                return myView;
+            }
+        });
+
+        Animation in = new AnimationUtils().loadAnimation(this, android.R.anim.fade_in);
+        Animation out = new AnimationUtils().loadAnimation(this, android.R.anim.fade_out);
+
+        sw.setInAnimation(in);
+        sw.setOutAnimation(out);
+
+        nextImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sw.setImageURI(imageUri);
+            }
+        });
+//        Glide.with(this)
+//                .load(imageUri)
+//                .crossFade(1000)
+//                .into(iv);
+
+
     }
+
 
 //    private class SlideshowAdapter {
 //
