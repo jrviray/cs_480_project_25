@@ -22,8 +22,8 @@
         <item>slide right</item>
         <item>slide down</item>
         <item>slide up</item>
-        <item>zoom out</item>
         <item>zoom in</item>
+        <item>zoom out</item>
 
     </string-array>
 </resources>

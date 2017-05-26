@@ -22,13 +22,7 @@ import com.github.angads25.filepicker.model.DialogProperties;
 import com.github.angads25.filepicker.view.FilePickerDialog;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
-
-/**
- * Created by king on 5/22/17.
- */
 
 public class SlideshowDialogFragment extends DialogFragment {
 
@@ -37,34 +31,16 @@ public class SlideshowDialogFragment extends DialogFragment {
     private Spinner transitionsList;
     private Spinner durationList;
 
-    int transition;
+    int transitionIn;
+    int transitionOut;
     int duration;
     ArrayList<String> contents;
-    String path;
+    String[] fileCollection;
 
     SlideshowDialogFragment getData;
 
     public SlideshowDialogFragment() {
 
-    }
-
-    /**
-     * List the contents within a file
-     *
-     * @param path
-     * @return
-     */
-    public ArrayList getContents(String path) {
-        File parentDir = new File(path);
-        ArrayList contents = new ArrayList<>();
-        // accept only jpg files
-        contents.addAll(Arrays.asList(parentDir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(".jpg");
-            }
-        })));
-        return contents;
     }
 
     public static SlideshowDialogFragment newInstance(String title) {
@@ -99,26 +75,39 @@ public class SlideshowDialogFragment extends DialogFragment {
                 properties.extensions = null;
                 // set the dialog box
                 final FilePickerDialog dialog = new FilePickerDialog(SlideshowDialogFragment.this.getActivity(), properties);
-                dialog.setTitle("Select a File");
+                dialog.setTitle("Select File(s)");
 
                 dialog.show();
 
                 dialog.setDialogSelectionListener(new DialogSelectionListener() {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
-                        path = files[0];
-                        contents = getContents(files[0].toString());
+                        fileCollection = files;
                     }
                 });
             }
         });
 
         // spinner listener
-        Spinner transitionSelect = (Spinner) view.findViewById(R.id.spinner_transitions_list);
-        transitionSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner transitionInSelect = (Spinner) view.findViewById(R.id.spinner_transitions_in);
+        transitionInSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                transition = parent.getSelectedItemPosition();
+                transitionIn = parent.getSelectedItemPosition();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // spinner listener
+        Spinner transitionOutSelect = (Spinner) view.findViewById(R.id.spinner_transitions_out);
+        transitionOutSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                transitionOut = parent.getSelectedItemPosition();
             }
 
             @Override
@@ -145,18 +134,12 @@ public class SlideshowDialogFragment extends DialogFragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // pass in the transition and duration selected as extras to the intent
-                // start and launch the intent
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("duration", duration);
-//                bundle.putInt("transition", transition);
-//                bundle.putStringArrayList("contents", contents);
 
                 Intent slideshowIntent = new Intent(getActivity(), SlideshowActivity.class);
                 slideshowIntent.putExtra("duration", duration);
-                slideshowIntent.putExtra("transition", transition);
-                slideshowIntent.putExtra("contents", contents);
-                slideshowIntent.putExtra("path", path);
+                slideshowIntent.putExtra("transitionIn", transitionIn);
+                slideshowIntent.putExtra("transitionOut", transitionOut);
+                slideshowIntent.putExtra("files", fileCollection);
                 startActivity(slideshowIntent);
             }
         });

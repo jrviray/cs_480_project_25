@@ -16,17 +16,35 @@
         android:text="Select Files/Directory" />
 
     <TextView
-        android:id="@+id/tv_transition"
+        android:id="@+id/tv_transition_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Transition:"
+        android:text="Transition In:"
         android:textColor="#000000"
         android:textSize="15dp" />
 
     <Spinner
-        android:id="@+id/spinner_transitions_list"
+        android:id="@+id/spinner_transitions_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:entries="@array/slideshow_transitions_list"></Spinner>
+
+    <TextView
+        android:id="@+id/tv_transition_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Transition Out:"
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+    <Spinner
+        android:id="@+id/spinner_transitions_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
