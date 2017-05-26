@@ -56,7 +56,7 @@ public class SlideshowActivity extends AppCompatActivity {
         contents = getContents(files);
         contents = getContentsAsStrings(contents);
 
-        duration = getIntent().getIntExtra("duration", -1);
+        duration = getDuration(getIntent().getIntExtra("duration", -1));
 
         sw.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
@@ -81,11 +81,12 @@ public class SlideshowActivity extends AppCompatActivity {
 
         sw.postDelayed(new Runnable() {
             public void run() {
-                if (counter == contents.size() -1 ){
+                if (counter == contents.size()){
                     finish();
                 }
                 sw.setImageURI(imageUri);
-                sw.postDelayed(this, 1000);
+                // length of each repition
+                sw.postDelayed(this, duration*1000);
                 counter++;
             }
         }, 1000);
@@ -132,6 +133,23 @@ public class SlideshowActivity extends AppCompatActivity {
                 return R.anim.zoom_in_animation;
             case 14:
                 return R.anim.zoom_out_animation;
+            default:
+                return -1;
+        }
+    }
+
+    public int getDuration(int x){
+        switch (x){
+            case 0:
+                return 1;
+            case 1:
+                return 3;
+            case 2:
+                return 5;
+            case 3:
+                return 7;
+            case 4:
+                return 10;
             default:
                 return -1;
         }
