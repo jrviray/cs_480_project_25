@@ -29,6 +29,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
+import static android.R.attr.bitmap;
 
 /**
  * Created by king on 5/23/17.
@@ -91,15 +95,31 @@ public class SlideshowActivity extends AppCompatActivity {
             public void run() {
                 if (counter == contents.size()){
                     finish();
+                    return;
                 }
+                Glide.with(SlideshowActivity.this).load(contents.get(counter)).
+                asBitmap().fitCenter().into(new SimpleTarget<Bitmap>(1080,1920) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        sw.setImageDrawable(new BitmapDrawable(resource));
+                    }
+                });
 
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                Bitmap bitmap = BitmapFactory.decodeFile(contents.get(counter),bmOptions);
-                Drawable drawable = new BitmapDrawable(bitmap);
-
-                //Bitmap bMap = BitmapFactory.decodeFile(contents.get(counter));
-                sw.setImageDrawable(drawable);
-                // length of each repition
+//                if(bitmap_cache_last!=null)
+//                    bitmap_cache_last.recycle();
+//                bitmap_cache_last=bitmap_cache_this;
+//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+//
+//                bitmap_cache_this = BitmapFactory.decodeFile(contents.get(counter),bmOptions);
+//                if(drawable!=null)
+//                drawable.getBitmap().recycle();
+//                drawable = new BitmapDrawable(bitmap_cache_this);
+//
+//
+//                sw.setImageDrawable(null);
+//                //Bitmap bMap = BitmapFactory.decodeFile(contents.get(counter));
+//                sw.setImageDrawable(drawable);
+//                // length of each repition
                 sw.postDelayed(this, duration*1000);
                 counter++;
             }
