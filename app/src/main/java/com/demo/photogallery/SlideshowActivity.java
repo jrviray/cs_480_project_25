@@ -1,5 +1,9 @@
 package com.demo.photogallery;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +27,8 @@ import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
 import android.os.Bundle;
 import android.view.View;
+
+import com.bumptech.glide.Glide;
 
 /**
  * Created by king on 5/23/17.
@@ -64,8 +70,8 @@ public class SlideshowActivity extends AppCompatActivity {
                 ImageView myView = new ImageView(getApplicationContext());
                 myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 myView.setLayoutParams(new
-                        ImageSwitcher.LayoutParams(LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT));
+                        ImageSwitcher.LayoutParams(LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT));
                 return myView;
             }
         });
@@ -79,12 +85,20 @@ public class SlideshowActivity extends AppCompatActivity {
         counter = 0;
         imageUri = Uri.fromFile(new File(contents.get(counter)));
 
+        //Bitmap bMap = BitmapFactory.decodeFile();
+
         sw.postDelayed(new Runnable() {
             public void run() {
                 if (counter == contents.size()){
                     finish();
                 }
-                sw.setImageURI(imageUri);
+
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                Bitmap bitmap = BitmapFactory.decodeFile(contents.get(counter),bmOptions);
+                Drawable drawable = new BitmapDrawable(bitmap);
+
+                //Bitmap bMap = BitmapFactory.decodeFile(contents.get(counter));
+                sw.setImageDrawable(drawable);
                 // length of each repition
                 sw.postDelayed(this, duration*1000);
                 counter++;
@@ -98,6 +112,8 @@ public class SlideshowActivity extends AppCompatActivity {
                 sw.setImageURI(imageUri);
             }
         });
+
+
 
 //        sw.setImageURI(imageUri);
 
